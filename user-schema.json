@@ -1,0 +1,341 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "User",
+        "version": "1.0.0",
+        "description": "CRUD API for User",
+        "contact": {
+            "name": "Jeff",
+            "url": "https://jeff.io",
+            "email": "jeff@gmail.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{domain}.jeff.com",
+            "description": "",
+            "variables": {
+                "domain": {
+                    "default": "api"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/users": {
+            "summary": "Path used to manage the list of users.",
+            "description": "The REST endpoint/path used to list and create zero or more `User` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "description": "Limit the number of `Users` records in the response",
+                        "schema": {},
+                        "in": "query",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NewUser"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful response - returns an array of `User` entities."
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+                            "user"
+                        ]
+                    }
+                ],
+                "operationId": "getUsers",
+                "summary": "List All Users",
+                "description": "Gets a list of all `User` entities."
+            },
+            "post": {
+                "requestBody": {
+                    "description": "A new `User` to be created.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "user"
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewUser"
+                                }
+                            }
+                        },
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+                            "user"
+                        ]
+                    }
+                ],
+                "operationId": "createUser",
+                "summary": "Create a User",
+                "description": "Creates a new instance of a `User`."
+            }
+        },
+        "/users/{userId}": {
+            "summary": "Path used to manage a single User.",
+            "description": "The REST endpoint/path used to get, update, and delete single instances of an `User`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "description": "A unique identifier for a `User`.",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewUser"
+                                },
+                                "examples": {
+                                    "Get user example": {
+                                        "value": {
+                                            "id": 1231423566,
+                                            "first_name": "John",
+                                            "last_name": "Doe",
+                                            "age": 30
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful response - returns a single `User`."
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+                            "user"
+                        ]
+                    }
+                ],
+                "operationId": "getUser",
+                "summary": "Get a User",
+                "description": "Gets the details of a single instance of a `User`."
+            },
+            "put": {
+                "requestBody": {
+                    "description": "Updated `User` information.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "user"
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+                            "user"
+                        ]
+                    }
+                ],
+                "operationId": "updateUser",
+                "summary": "Update a User",
+                "description": "Updates an existing `User`."
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful response."
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+                            "user"
+                        ]
+                    }
+                ],
+                "operationId": "deleteUser",
+                "summary": "Delete a User",
+                "description": "Deletes an existing `User`."
+            },
+            "parameters": [
+                {
+                    "name": "userId",
+                    "description": "A unique identifier for a `User`.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "Root Type for User",
+                "description": "",
+                "required": [
+                    "first_name",
+                    "last_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "format": "int32",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "age": 30
+                }
+            },
+            "Error": {
+                "title": "Root Type for Error",
+                "description": "An Error Object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "code": "UM0032",
+                    "message": "Invalid first_name"
+                }
+            },
+            "NewUser": {
+                "title": "Root Type for NewUser",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "format": "int32",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "id": 232543643634,
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "age": 30
+                }
+            }
+        },
+        "responses": {
+            "badRequest": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                },
+                "description": ""
+            }
+        },
+        "securitySchemes": {
+            "OAuth2": {
+                "flows": {
+                    "clientCredentials": {
+                        "tokenUrl": "https://oauth2.jeff.com/oauth/token",
+                        "scopes": {
+                            "user": ""
+                        }
+                    }
+                },
+                "type": "oauth2"
+            }
+        }
+    },
+    "security": [
+        {
+            "OAuth2": [
+                "user"
+            ]
+        }
+    ],
+    "tags": [
+        {
+            "name": "user",
+            "description": ""
+        }
+    ]
+}
