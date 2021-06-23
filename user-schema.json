@@ -3,7 +3,7 @@
     "info": {
         "title": "User",
         "version": "1.0.0",
-        "description": "CRUD API for Users",
+        "description": "CRUD API for User",
         "contact": {
             "name": "Jeff",
             "url": "https://jeff.io",
